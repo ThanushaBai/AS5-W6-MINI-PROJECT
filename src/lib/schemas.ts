@@ -8,7 +8,7 @@ export const eventSchema = z.object({
     .min(20, "Description must be at least 20 characters"),
 
   date: z.string().refine(
-    (value) => new Date(value) > new Date(),
+    (value) => !Number.isNaN(new Date(value).getTime()) && new Date(value) > new Date(),
     "Event date must be in the future"
   ),
 
@@ -18,7 +18,7 @@ export const eventSchema = z.object({
 
   organizer: z.string().min(3),
 
-  posterUrl: z.string()
+  posterUrl: z.string().min(1, "Poster is required")
 })
 
 export type EventInput = z.infer<typeof eventSchema>

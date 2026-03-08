@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "predev": "node scripts/clear-next-lock.js",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.1.0",
     "multer": "^2.1.1",
     "next": "16.1.6",
     "next-intl": "^4.8.3",

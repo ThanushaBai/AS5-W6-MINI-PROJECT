@@ -1,36 +1,36 @@
-import EventCard from "@/components/EventCard"
+import EventCard from "@/components/EventCard";
+import { getEvents as getEventsFromDb } from "@/lib/db";
+import { Event } from "@/types/event";
+import { getTranslations } from "next-intl/server";
+import { unstable_cache } from "next/cache";
 
-async function getEvents() {
-  const res = await fetch("http://localhost:3000/api/events", {
-    cache: "no-store"
-  })
+const getCachedEvents = unstable_cache(
+  async () => getEventsFromDb(),
+  ["events-list"],
+  { revalidate: 60, tags: ["events"] }
+);
 
-  return res.json()
-}
-
-export default async function EventsPage() {
-
-  const events = await getEvents()
+export default async function EventsPage({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations("EventsPage");
+  const events = (await getCachedEvents()) as Event[];
 
   return (
-    <div className="p-10">
+    <main className="mx-auto max-w-6xl px-4 py-10">
+      <h1 className="text-3xl font-bold">{t("title")}</h1>
+      <p className="mt-2 text-slate-600">{t("subtitle")}</p>
 
-      <h1 className="text-3xl font-bold mb-8">
-        Upcoming Events
-      </h1>
+      {events.length === 0 && <p className="mt-6">{t("empty")}</p>}
 
-      {events.length === 0 && (
-        <p>No events created yet.</p>
-      )}
-
-      <div className="grid md:grid-cols-3 gap-6">
-
-        {events.map((event: any) => (
-          <EventCard key={event.id} event={event} />
+      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {events.map((event) => (
+          <EventCard key={event.id} event={event} locale={locale} viewDetailsLabel={t("viewDetails")} />
         ))}
-
       </div>
-
-    </div>
-  )
+    </main>
+  );
 }

@@ -1,0 +1,58 @@
+{
+  "Navbar": {
+    "home": "الرئيسية",
+    "events": "الفعاليات",
+    "createEvent": "إنشاء فعالية"
+  },
+  "Home": {
+    "title": "منصة الفعاليات العالمية",
+    "subtitle": "أنشئ واكتشف وأدر الفعاليات بلغات متعددة.",
+    "browseEvents": "تصفح الفعاليات",
+    "createEvent": "إنشاء فعالية"
+  },
+  "EventsPage": {
+    "title": "الفعاليات القادمة",
+    "subtitle": "استكشف أحدث الفعاليات العالمية حسب الفئات.",
+    "empty": "لا توجد فعاليات حتى الآن.",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "CreateEventPage": {
+    "title": "إنشاء فعالية",
+    "subtitle": "املأ جميع التفاصيل لنشر فعاليتك."
+  },
+  "EventDetails": {
+    "date": "التاريخ",
+    "location": "الموقع",
+    "organizer": "المنظم",
+    "category": "الفئة"
+  },
+  "AdminPage": {
+    "title": "لوحة تحكم المدير",
+    "subtitle": "هذه الصفحة محمية عبر التحقق من رمز المصادقة في الـ middleware."
+  },
+  "EventForm": {
+    "title": "عنوان الفعالية",
+    "description": "الوصف",
+    "date": "تاريخ الفعالية",
+    "location": "الموقع",
+    "category": "الفئة",
+    "organizer": "اسم المنظم",
+    "poster": "رفع الملصق (الحد الأقصى 3MB)",
+    "create": "إنشاء فعالية",
+    "creating": "جارٍ الإنشاء...",
+    "errors": {
+      "titleMin": "يجب أن يكون العنوان 5 أحرف على الأقل",
+      "descriptionMin": "يجب أن يكون الوصف 20 حرفًا على الأقل",
+      "futureDate": "يجب أن يكون تاريخ الفعالية في المستقبل",
+      "locationRequired": "الموقع مطلوب",
+      "categoryRequired": "الفئة مطلوبة",
+      "organizerRequired": "اسم المنظم مطلوب",
+      "posterRequired": "الملصق مطلوب",
+      "posterImage": "يجب أن يكون الملصق صورة",
+      "posterMax": "يجب أن يكون حجم الملصق أقل من 3MB",
+      "uploadFailed": "فشل رفع الملصق",
+      "createFailed": "فشل إنشاء الفعالية",
+      "fixForm": "يرجى تصحيح أخطاء النموذج"
+    }
+  }
+}

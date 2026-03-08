@@ -1,16 +1,35 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { eventSchema } from "@/lib/schemas"
-import { addEvent, getEvents } from "@/lib/db"
+import { addEvent, getEvents, getEventBySlug } from "@/lib/db"
 import { generateSlug, generateId } from "@/lib/utils"
+import { verifyAuthToken } from "@/lib/auth";
+import { revalidateTag } from "next/cache";
 
 export async function GET() {
-  const events = getEvents()
+  try {
+    const events = await getEvents()
 
-  return NextResponse.json(events)
+    return NextResponse.json(events)
+  } catch {
+    return NextResponse.json(
+      { error: "Failed to fetch events. Check MongoDB configuration." },
+      { status: 500 }
+    );
+  }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const token = req.cookies.get("auth_token")?.value;
+    const isValidToken = token ? Boolean(verifyAuthToken(token)) : false;
+
+    if (!isValidToken) {
+      return NextResponse.json(
+        { error: "Unauthorized. Please login first." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json()
 
     const validation = eventSchema.safeParse(body)
@@ -24,6 +43,11 @@ export async function POST(req: Request) {
 
     const data = validation.data
 
+    let slug = generateSlug(data.title)
+    if (await getEventBySlug(slug)) {
+      slug = `${slug}-${Date.now()}`
+    }
+
     const newEvent = {
       id: generateId(),
       title: data.title,
@@ -33,13 +57,17 @@ export async function POST(req: Request) {
       category: data.category,
       organizer: data.organizer,
       posterUrl: data.posterUrl,
-      slug: generateSlug(data.title),
+      slug,
       createdAt: new Date().toISOString()
     }
 
-    addEvent(newEvent)
+    await addEvent(newEvent)
+    revalidateTag("events", "max");
+    revalidateTag(`event:${newEvent.slug}`, "max");
 
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/webhook/event-created`, {
+    const webhookUrl = new URL("/api/webhook/event-created", req.url)
+
+    await fetch(webhookUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -51,9 +79,9 @@ export async function POST(req: Request) {
       })
     })
 
-    return NextResponse.json(newEvent)
+    return NextResponse.json(newEvent, { status: 201 })
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to create event" },
       { status: 500 }

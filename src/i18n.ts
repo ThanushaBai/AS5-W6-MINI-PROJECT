@@ -1,7 +1,5 @@
 import {getRequestConfig} from "next-intl/server";
-
-export const locales = ["en", "fr"];
-export const defaultLocale = "en";
+import { defaultLocale } from "@/config/locales";
 
 export default getRequestConfig(async ({locale}) => {
 

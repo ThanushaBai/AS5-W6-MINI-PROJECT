@@ -1,57 +1,56 @@
-import { notFound } from "next/navigation"
-import Image from "next/image"
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getEventBySlug } from "@/lib/db";
+import { Event } from "@/types/event";
+import { getTranslations } from "next-intl/server";
+import { unstable_cache } from "next/cache";
 
 async function getEvent(slug: string) {
-  const res = await fetch("http://localhost:3000/api/events", {
-    cache: "no-store"
-  })
+  const getCachedEvent = unstable_cache(
+    async () => getEventBySlug(slug),
+    ["event-by-slug", slug],
+    { revalidate: 60, tags: ["events", `event:${slug}`] }
+  );
 
-  const events = await res.json()
-
-  return events.find((event: any) => event.slug === slug)
+  return (await getCachedEvent()) as Event | null;
 }
 
-export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
-
-  const { slug } = await params
-
-  const event = await getEvent(slug)
+export default async function EventPage({
+  params
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}) {
+  const { slug } = await params;
+  const t = await getTranslations("EventDetails");
+  const event = await getEvent(slug);
 
   if (!event) {
-    notFound()
+    notFound();
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-10">
+    <main className="mx-auto max-w-4xl px-4 py-10">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <Image
+          src={event.posterUrl}
+          alt={event.title}
+          width={1200}
+          height={630}
+          priority
+          sizes="100vw"
+          quality={80}
+          className="h-72 w-full object-cover"
+        />
 
-      <Image
-  src={event.posterUrl}
-  alt={event.title}
-  width={900}
-  height={500}
-  className="w-full h-96 object-cover rounded-lg"
-/>
-
-      <h1 className="text-4xl font-bold mt-6">
-        {event.title}
-      </h1>
-
-      <p className="text-gray-600 mt-2">
-        {event.location}
-      </p>
-
-      <p className="text-gray-500">
-        {new Date(event.date).toDateString()}
-      </p>
-
-      <p className="mt-6">
-        {event.description}
-      </p>
-
-      <p className="mt-4 font-medium">
-        Organized by: {event.organizer}
-      </p>
-
-    </div>
-  )
+        <div className="space-y-3 p-6">
+          <h1 className="text-3xl font-bold">{event.title}</h1>
+          <p className="text-slate-700">{event.description}</p>
+          <p><strong>{t("date")}:</strong> {new Date(event.date).toLocaleDateString()}</p>
+          <p><strong>{t("location")}:</strong> {event.location}</p>
+          <p><strong>{t("organizer")}:</strong> {event.organizer}</p>
+          <p><strong>{t("category")}:</strong> {event.category}</p>
+        </div>
+      </div>
+    </main>
+  );
 }

@@ -1,6 +1,58 @@
 {
   "Navbar": {
     "home": "Home",
+    "events": "Events",
     "createEvent": "Create Event"
+  },
+  "Home": {
+    "title": "Global Event Platform",
+    "subtitle": "Create, discover, and manage events in multiple languages.",
+    "browseEvents": "Browse Events",
+    "createEvent": "Create Event"
+  },
+  "EventsPage": {
+    "title": "Upcoming Events",
+    "subtitle": "Explore latest global events across categories.",
+    "empty": "No events created yet.",
+    "viewDetails": "View Details"
+  },
+  "CreateEventPage": {
+    "title": "Create Event",
+    "subtitle": "Fill in all details to publish your event."
+  },
+  "EventDetails": {
+    "date": "Date",
+    "location": "Location",
+    "organizer": "Organizer",
+    "category": "Category"
+  },
+  "AdminPage": {
+    "title": "Admin Dashboard",
+    "subtitle": "This page is protected by middleware token verification."
+  },
+  "EventForm": {
+    "title": "Event Title",
+    "description": "Description",
+    "date": "Event Date",
+    "location": "Location",
+    "category": "Category",
+    "organizer": "Organizer Name",
+    "poster": "Upload Poster (max 3MB)",
+    "create": "Create Event",
+    "creating": "Creating...",
+    "errors": {
+      "titleMin": "Title must be at least 5 characters",
+      "descriptionMin": "Description must be at least 20 characters",
+      "futureDate": "Event date must be in the future",
+      "locationRequired": "Location is required",
+      "categoryRequired": "Category is required",
+      "organizerRequired": "Organizer name is required",
+      "posterRequired": "Poster is required",
+      "posterImage": "Poster must be an image",
+      "posterMax": "Poster must be smaller than 3MB",
+      "uploadFailed": "Poster upload failed",
+      "createFailed": "Event creation failed",
+      "fixForm": "Please fix form errors"
+    }
   }
 }

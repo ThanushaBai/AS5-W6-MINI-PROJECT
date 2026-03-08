@@ -18,12 +18,22 @@ export async function POST(req: Request) {
     )
   }
 
+  if (!file.type.startsWith("image/")) {
+    return NextResponse.json(
+      { error: "Only image files are allowed" },
+      { status: 400 }
+    )
+  }
+
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
 
   const fileName = Date.now() + "-" + file.name
 
-  const uploadPath = path.join(process.cwd(), "public/uploads", fileName)
+  const uploadDir = path.join(process.cwd(), "public/uploads")
+  fs.mkdirSync(uploadDir, { recursive: true })
+
+  const uploadPath = path.join(uploadDir, fileName)
 
   fs.writeFileSync(uploadPath, buffer)
 

@@ -1,11 +1,14 @@
-import Link from "next/link"
 import Image from "next/image"
+import { Event } from "@/types/event"
+import EventActions from "@/components/EventActions";
 
 type EventCardProps = {
-  event: any
+  event: Event
+  locale: string
+  viewDetailsLabel: string
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event, locale, viewDetailsLabel }: EventCardProps) {
   return (
     <div className="border rounded-lg shadow-md p-4 hover:shadow-lg transition">
 
@@ -14,6 +17,8 @@ export default function EventCard({ event }: EventCardProps) {
         alt={event.title}
         width={400}
         height={200}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        quality={75}
         className="w-full h-48 object-cover rounded"
       />
 
@@ -29,12 +34,11 @@ export default function EventCard({ event }: EventCardProps) {
         {new Date(event.date).toDateString()}
       </p>
 
-      <Link
-        href={`/events/${event.slug}`}
-        className="inline-block mt-3 text-blue-600 font-medium"
-      >
-        View Details →
-      </Link>
+      <p className="mt-2 text-sm text-slate-600">
+        {event.description.length > 80 ? `${event.description.slice(0, 80)}...` : event.description}
+      </p>
+
+      <EventActions locale={locale} slug={event.slug} readMoreLabel={viewDetailsLabel} />
 
     </div>
   )

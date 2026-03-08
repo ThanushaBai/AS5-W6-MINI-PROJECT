@@ -1,6 +1,58 @@
 {
   "Navbar": {
     "home": "Accueil",
+    "events": "Événements",
     "createEvent": "Créer un événement"
+  },
+  "Home": {
+    "title": "Plateforme mondiale d'événements",
+    "subtitle": "Créez, découvrez et gérez des événements en plusieurs langues.",
+    "browseEvents": "Voir les événements",
+    "createEvent": "Créer un événement"
+  },
+  "EventsPage": {
+    "title": "Événements à venir",
+    "subtitle": "Explorez les derniers événements mondiaux par catégorie.",
+    "empty": "Aucun événement créé pour le moment.",
+    "viewDetails": "Voir les détails"
+  },
+  "CreateEventPage": {
+    "title": "Créer un événement",
+    "subtitle": "Remplissez tous les détails pour publier votre événement."
+  },
+  "EventDetails": {
+    "date": "Date",
+    "location": "Lieu",
+    "organizer": "Organisateur",
+    "category": "Catégorie"
+  },
+  "AdminPage": {
+    "title": "Tableau de bord Admin",
+    "subtitle": "Cette page est protégée par la vérification de jeton du middleware."
+  },
+  "EventForm": {
+    "title": "Titre de l'événement",
+    "description": "Description",
+    "date": "Date de l'événement",
+    "location": "Lieu",
+    "category": "Catégorie",
+    "organizer": "Nom de l'organisateur",
+    "poster": "Télécharger l'affiche (max 3 Mo)",
+    "create": "Créer un événement",
+    "creating": "Création...",
+    "errors": {
+      "titleMin": "Le titre doit contenir au moins 5 caractères",
+      "descriptionMin": "La description doit contenir au moins 20 caractères",
+      "futureDate": "La date de l'événement doit être dans le futur",
+      "locationRequired": "Le lieu est obligatoire",
+      "categoryRequired": "La catégorie est obligatoire",
+      "organizerRequired": "Le nom de l'organisateur est obligatoire",
+      "posterRequired": "L'affiche est obligatoire",
+      "posterImage": "L'affiche doit être une image",
+      "posterMax": "L'affiche doit être inférieure à 3 Mo",
+      "uploadFailed": "Échec du téléchargement de l'affiche",
+      "createFailed": "Échec de la création de l'événement",
+      "fixForm": "Veuillez corriger les erreurs du formulaire"
+    }
   }
 }
